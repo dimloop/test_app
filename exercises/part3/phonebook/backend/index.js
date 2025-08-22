@@ -54,13 +54,13 @@ const errorHandler = (error, request, response, next) => {
 //     }
 // ]
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
     Person.find({}).then(persons => {
         response.json(persons)
     }).catch(error => next(error))
 })
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
 
     Person.find({}).then(result => {
         const totalPersons = result.length
