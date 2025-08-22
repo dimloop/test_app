@@ -46,7 +46,15 @@ const App = () => {
           setNewNumber('')
         })
         .catch(error => {
-          console.error("Error creating person:", error);
+          //console.log(error.response);
+          setNotificationColor({ color: 'red' })
+          setNotification(
+            `${error.response.data.error}`
+          )
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
+
         });
 
 
@@ -129,20 +137,21 @@ const App = () => {
 
   const toggleDelete = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
-
+      //const id = person.id
       //console.log("ID", person.id)
       personService
         .delete_(person.id)
-        .then(deletedPerson => {
-          console.log(`Successfully deleted person with id ${deletedPerson.id}`);
+        .then(deletedid => {
+          console.log(`Successfully deleted person with id ${deletedid}`);
           //update lists
-          setPersons(persons.filter(person => person.id !== deletedPerson.id));
-          setFilterArray(filterArray.filter(person => person.id !== deletedPerson.id));
+          //console.log(`Successfully deleted person with id ${id}`);
+          setPersons(persons.filter(person => person.id !== deletedid));
+          setFilterArray(filterArray.filter(person => person.id !== deletedid));
         })
         .catch(error => {
-          console.error(`Error deleting person ${deletedPerson.name}:`, error);
+          console.error(`Error deleting person ${person.name}:`, error);
           setNotificationColor({ color: "red" })
-          setNotification(`Information about ${deletedPerson.name} has already been removed from the server`)
+          setNotification(`Information about ${person.name} has already been removed from the server`)
 
 
         })
